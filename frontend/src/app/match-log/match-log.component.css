@@ -1,0 +1,9 @@
+.ag-theme-quartz {
+    height: 475px;
+    width: 820px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}

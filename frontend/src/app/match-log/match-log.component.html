@@ -1,0 +1,11 @@
+<div class="center">
+    <h2> Match log:</h2>
+  </div>
+<ag-grid-angular
+class="ag-theme-quartz"
+[rowData]="rowData"
+[columnDefs]="columnDefs"/>
+
+<div class="center">
+  <button type="button" (click)="reload()" clickable>Update</button>
+</div>

@@ -1,0 +1,16 @@
+<div class="center">
+  <h2> Upcoming Match:</h2>
+</div>
+<div class="upcoming-match">
+    <img src="../../assets/images/Ajax-logo.jpg" alt="First Image">
+    <div class="text">
+      <p>{{this.date}}</p>
+    </div>
+    <img [src]="'../../assets/images/' + this.opponent + '-logo.jpg'" alt="Second Image">
+</div>
+
+<div class="button">
+    <button type="button" (click)="predict()" clickable>Get Prediction</button>
+</div>
+
+<div [ngClass]="getColor()">{{ clickMessage }}</div>
