@@ -1,10 +1,10 @@
 # Full Stack Football Application
 
-An application that visualizes the matches that were played by a football club during a specific season. Besides, it has a component showing the coming match, for which a prediction can be calculated. The backend is built with **Java Springboot**, and the frontend with **Angular**. For styling the Angular components, **CSS** is used. For retrieving the actual match data, **Jsoup** is used. For storing the match data, **MySQL** is used. For predicting the result of matches, a **Python** script is used that can be called from Java with a process builder. The Python script uses **Machine Learning** for determining the match results. The backend is responsible for manipulating the database holding the match data, and predicting the result of an upcoming match, whereas the frontend visualizes the data from the database and allows for making requests to the backend.
+An application that visualizes the matches that were played by a football club during a specific season. Additionally, it has a component showing the coming match, for which a prediction can be calculated. The backend is built with **Java Springboot**, and the frontend with **Angular**. For styling the Angular components, **CSS** is used. For retrieving the actual match data, **Jsoup** is used. For storing the match data, **MySQL** is used. For predicting the result of matches, a **Python** script is used that can be called from Java with a process builder. The Python script uses **Machine Learning** for determining the match results. The backend is responsible for manipulating the database holding the match data, and predicting the result of an upcoming match, whereas the frontend visualizes the data from the database and allows for making requests to the backend.
 
 ## View
 
-The main page consists of a couple of Angular components. The first component is responsible for the match log, and it shows the match data from the database. Different match results get different colors. Besides, a button is present that can be used to manipulate the database, such that is becomes up to date.
+The main page consists of a couple of Angular components. The first component is responsible for the match log, and it shows the match data from the database. Different match results get different colors. Besides, a button is present that can be used to manipulate the database, such that it becomes up to date.
 
 ![MP](/main-page1.PNG)
 
