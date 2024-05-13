@@ -81,7 +81,7 @@ public class Scraper {
 
     public static void parseMatches(MatchRepository matchRepository) {
 
-        String url = "https://fbref.com/en/squads/19c3f8c4/2021-2022/Ajax-Stats";
+        String url = "https://fbref.com/en/squads/19c3f8c4/Ajax-Stats";
 
         try {
             // Make an HTTP GET request to the URL

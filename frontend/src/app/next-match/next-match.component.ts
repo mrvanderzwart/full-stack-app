@@ -16,6 +16,7 @@ interface Match {
 })
 export class NextMatchComponent {
   opponent: String = "";
+  opponent_code: String = "";
   date: String = "";
   clickMessage: String = "";
   result: String = "";
@@ -28,6 +29,16 @@ export class NextMatchComponent {
         (data) => {
           this.opponent = data.opponent;
           this.date = data.matchdate;
+
+          this.http.get(`http://localhost:8080/getTeamCode?team=${this.opponent}`, { responseType: 'text'})
+          .subscribe(
+            (data: string) => {
+              this.opponent_code = data;
+            },
+            (error) => {
+              console.error('Error fetching data:', error);
+            }
+          );
         },
         (error) => {
           console.error('Error fetching data:', error);

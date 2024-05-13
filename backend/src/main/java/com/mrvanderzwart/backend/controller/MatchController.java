@@ -40,8 +40,14 @@ public class MatchController {
     }
 
     @GetMapping("/getPrediction")
-    public String getPrediction() {
+    public String getPrediction() throws Exception {
         return service.getPrediction();
+    }
+
+    @GetMapping("/getTeamCode")
+    public String getTeamCode(String team) throws Exception {
+        System.out.println(team);
+        return service.getTeamCode(team);
     }
 
 }

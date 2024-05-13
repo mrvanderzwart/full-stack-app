@@ -1,7 +1,6 @@
 package com.mrvanderzwart.backend.service;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
@@ -35,22 +34,34 @@ public class MatchService {
         return Scraper.getNextMatch(matchRepo);
     }
 
-    public String getPrediction() {
+    public String getPrediction() throws Exception{
         String result = "{}";
-        try {
-            String pythonInterpreter = "python";
-            String pythonScript = "src\\main\\java\\com\\mrvanderzwart\\footballapplication\\script\\PredictMatch.py";
 
-            String[] command = {pythonInterpreter, pythonScript};
+        String pythonInterpreter = "python";
+        String pythonScript = "backend\\src\\main\\java\\com\\mrvanderzwart\\backend\\scripts\\PredictMatch.py";
 
-            ProcessBuilder processBuilder = new ProcessBuilder(command);
-            Process process = processBuilder.start();
+        String[] command = {pythonInterpreter, pythonScript};
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            result = reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        Process process = processBuilder.start();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        result = reader.readLine();
+
+        return result;
+    }
+
+    public String getTeamCode(String team) throws Exception {
+        String pythonInterpreter = "python";
+        String pythonScript = "backend\\src\\main\\java\\com\\mrvanderzwart\\backend\\scripts\\PredictMatch.py";
+
+        String[] command = {pythonInterpreter, pythonScript, team};
+
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        Process process = processBuilder.start();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String result = reader.readLine();
 
         return result;
     }
