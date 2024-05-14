@@ -28,12 +28,30 @@ eredivisie_squads = {
 }
 
 
+def create_feature_form(df):
+    score_map = {'W' : 3, 'D' : 1, 'L' : 0}
+    df['Scores'] = df['Result'].map(score_map)
+    df['form'] = df['Scores'].rolling(window=5, min_periods=1).sum()
+
+    return df
+
+
+def create_feature_rest(df):
+    df['Date'] = pd.to_datetime(df['Date'])
+    df['rest'] = df['Date'].diff().dt.days
+    df['rest'] = df['rest'].fillna(10).astype(int)
+
+    return df
+
+
 def format_data(df):
     df["hour"] = df["Time"].str.replace(":.+", "", regex=True).astype(int)
     df["day_code"] = df["Day"].astype("category").cat.codes
     df["venue_code"] = df["Venue"].astype("category").cat.codes
     df["result_code"] = df["Result"].astype("category").cat.codes
     df["opponent_code"] = df["Opponent"].astype("category").cat.codes
+    create_feature_form(df)
+    create_feature_rest(df)
 
 
 def split_data(df):
@@ -45,13 +63,24 @@ def split_data(df):
     return df.iloc[:index], df.iloc[index]
 
 
-def get_seasons_data():
-    pass
+def get_seasons_data(team):
+    all_matches = pd.DataFrame()
+    for season in seasons:
+        url = "https://fbref.com/en/squads/"+eredivisie_squads[team]+"/"+season+"/"+team+"-Stats"
+        data = requests.get(url)
+        matches = pd.read_html(data.text, match="Scores & Fixtures")[0]
+        matches.to_csv(f'season{season}.csv', index=False)
+        all_matches = pd.concat([all_matches, matches], axis=0)
+
+    all_matches.to_csv('output.csv', index=False)
+
+    return all_matches
+
 
 def predict_result(df):
     rf = RandomForestClassifier(n_estimators=50, min_samples_split=10, random_state=1)
     train, test = split_data(df)
-    predictors = ["hour", "day_code", "venue_code", "opponent_code"]
+    predictors = ["hour", "day_code", "venue_code", "opponent_code", "form", "rest"]
     rf.fit(train[predictors], train["result_code"])
     pred = rf.predict(test[predictors].to_numpy().reshape(1, -1))
 
@@ -66,13 +95,15 @@ def predict_result(df):
     
 
 def main():
-    if len(sys.argv) >= 2:
+    if len(sys.argv) == 2:
         print(eredivisie_squads[sys.argv[1]])
         return
 
-    url = "https://fbref.com/en/squads/19c3f8c4/Ajax-Stats"
-    data = requests.get(url)
-    matches = pd.read_html(data.text, match="Scores & Fixtures")[0]
+    team1 = sys.argv[1]
+    team2 = sys.argv[2]
+
+    matches = get_seasons_data(team1)
+
     format_data(matches)
     print(predict_result(matches))
     
